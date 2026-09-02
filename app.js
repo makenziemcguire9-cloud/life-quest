@@ -1,7 +1,3 @@
-// ==============================
-// LIFE QUEST - FULL APP BRAIN (v4)
-// ==============================
-
 // Weekend helper 
 const isWeekend = () => {
   const day = new Date().getDay();
@@ -152,7 +148,14 @@ function loadData() {
     completedWeekly: {},
     houseCompleted: {},
     todaysHouseTasks: [],
-    houseDayIndex: 0
+    houseDayIndex: 0,
+    bonusSpinUsed: false,
+    megaSpinUnlocked: false,
+    ultraSpinUnlocked: false,
+    mythicSpinUnlocked: false,
+    twilightSpinUnlocked: false,
+    travelGoalMiles: 750,
+    travelMiles: 0
   };
 
   if (!stored.rewards.length) stored.rewards = defaultRewards;
@@ -174,6 +177,7 @@ function checkNewDay() {
     data.roomCompleted = {};
     data.completedDailyCustom = {};
     data.fitness = 0;
+    data.bonusSpinUsed = false;
 
     // House tasks rotation
     data.houseDayIndex = (data.houseDayIndex + 1) % 7;
@@ -349,10 +353,24 @@ document.getElementById("saveFitness").addEventListener("click", () => {
   const val = Number(document.getElementById("fitnessInput").value);
   if (val >= 0) {
     data.fitness = val;
+    data.travelMiles += val; // treat fitness as miles toward Destin
     saveData();
     renderFitness();
+    renderTravelMap();
   }
 });
+
+// TRAVEL MAP
+function renderTravelMap() {
+  const goal = data.travelGoalMiles || 750;
+  const miles = data.travelMiles || 0;
+  const percent = Math.min((miles / goal) * 100, 100);
+
+  document.getElementById("travelText").textContent =
+    `${miles.toFixed(1)} / ${goal} miles from Pendleton, IN to Destin, FL`;
+
+  document.getElementById("travelBar").style.width = `${percent}%`;
+}
 
 // ROOM RESET
 function renderRoom() {
@@ -427,7 +445,7 @@ function renderHouse() {
     `${completedCount} / ${tasks.length} tasks completed today`;
 }
 
-// WEIGHT LOSS QUEST
+// WEIGHT LOSS QUEST (30 lbs)
 function renderWeight() {
   const start = data.startingWeight;
   const current = data.currentWeight;
@@ -437,11 +455,33 @@ function renderWeight() {
 
   if (start !== null && current !== null) {
     const lost = Math.max(start - current, 0);
-    const percent = Math.min((lost / 15) * 100, 100);
+    const percent = Math.min((lost / 30) * 100, 100);
 
     document.getElementById("weightText").textContent =
-      `${lost.toFixed(1)} / 15 lbs lost • ${percent.toFixed(0)}% complete`;
+      `${lost.toFixed(1)} / 30 lbs lost • ${percent.toFixed(0)}% complete`;
     document.getElementById("weightBar").style.width = `${percent}%`;
+
+    if (lost >= 5 && !data.megaSpinUnlocked) {
+      data.megaSpinUnlocked = true;
+      alert("🎉 You unlocked the MEGA SPIN for losing 5 lbs!");
+    }
+
+    if (lost >= 10 && !data.ultraSpinUnlocked) {
+      data.ultraSpinUnlocked = true;
+      alert("🔥 You unlocked the ULTRA SPIN for losing 10 lbs!");
+    }
+
+    if (lost >= 20 && !data.mythicSpinUnlocked) {
+      data.mythicSpinUnlocked = true;
+      alert("🌟 You unlocked the MYTHIC SPIN for losing 20 lbs!");
+    }
+
+    if (lost >= 30 && !data.twilightSpinUnlocked) {
+      data.twilightSpinUnlocked = true;
+      alert("🐉 TWILIGHT SPIN unlocked — you hit your 30 lb goal!");
+    }
+
+    saveData();
   }
 }
 
@@ -625,7 +665,7 @@ function renderPerfectDay() {
   document.getElementById("perfectDayCard").classList.toggle("hidden", !allDone);
 }
 
-// BONUS SPIN
+// BONUS SPIN (once per day)
 const spinPrizes = [
   { text: "🪙 +25 coins!", coins: 25 },
   { text: "🪙 +50 coins!", coins: 50 },
@@ -634,8 +674,14 @@ const spinPrizes = [
 ];
 
 document.getElementById("spinButton").addEventListener("click", () => {
+  if (data.bonusSpinUsed) {
+    alert("You've already used your bonus spin today!");
+    return;
+  }
+
   const prize = spinPrizes[Math.floor(Math.random() * spinPrizes.length)];
   data.coins += prize.coins;
+  data.bonusSpinUsed = true;
   document.getElementById("spinResult").textContent = prize.text;
   saveData();
   renderHeader();
@@ -684,6 +730,7 @@ function render() {
   renderQuests();
   renderJoyChallenge();
   renderFitness();
+  renderTravelMap();
   renderRoom();
   renderHouse();
   renderWeight();
