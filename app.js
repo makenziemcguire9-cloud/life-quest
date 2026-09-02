@@ -1,3 +1,8 @@
+```javascript
+// ==============================
+// LIFE QUEST - APP LOGIC (v5)
+// ==============================
+
 // Weekend helper 
 const isWeekend = () => {
   const day = new Date().getDay();
@@ -789,3 +794,4 @@ render();
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
 }
+```
