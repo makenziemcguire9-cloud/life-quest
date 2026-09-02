@@ -1,4 +1,3 @@
-```javascript
 // ==============================
 // LIFE QUEST - APP LOGIC (v5)
 // ==============================
@@ -107,7 +106,7 @@ const roomTasks = [
   "Vacuum one section"
 ];
 
-// HOUSE TASKS (21)
+// HOUSE TASKS
 const houseTasks = [
   "Load the dishwasher",
   "Unload the dishwasher",
@@ -184,7 +183,7 @@ function checkNewDay() {
     data.fitness = 0;
     data.bonusSpinUsed = false;
 
-    // House tasks rotation
+    // House tasks rotation (3 per day)
     data.houseDayIndex = (data.houseDayIndex + 1) % 7;
     const start = data.houseDayIndex * 3;
     data.todaysHouseTasks = [start, start + 1, start + 2];
@@ -217,7 +216,7 @@ function getXPIntoLevel() {
 
 // LIFE STATS
 function getLifeStats() {
-  const pct = (count, total) => (count / total) * 100;
+  const pct = (count, total) => (total === 0 ? 0 : (count / total) * 100);
 
   return {
     fitness: pct((data.completed.fitness ? 1 : 0) + (data.completed.weights ? 1 : 0), 2),
@@ -271,42 +270,6 @@ function renderHeader() {
   document.getElementById("xpBar").style.width = `${(getXPIntoLevel() / 500) * 100}%`;
   document.getElementById("coins").textContent = data.coins;
   document.getElementById("joy").textContent = data.joy;
-}
-
-// TITLE LOGIC FOR CHARACTER STRIP
-function getCurrentTitle() {
-  const lost =
-    data.startingWeight !== null && data.currentWeight !== null
-      ? Math.max(data.startingWeight - data.currentWeight, 0)
-      : 0;
-
-  if (lost >= 30) return "Twilight Dragon Slayer";
-  if (lost >= 20) return "Beach Kraken Conqueror";
-  if (lost >= 10) return "Highland Wolf Warrior";
-  if (lost >= 5) return "Fog Wraith Challenger";
-
-  if (data.travelMiles >= data.travelGoalMiles) return "Destin Voyager";
-  if (data.travelMiles >= 250) return "Beach Wanderer";
-  if (data.travelMiles >= 100) return "Road Trip Adventurer";
-
-  return "Butterfly Guardian";
-}
-
-function renderCharacterStrip() {
-  const titleEl = document.getElementById("currentTitle");
-  const subtitleEl = document.getElementById("characterSubtitle");
-  const barEl = document.getElementById("characterTravelBar");
-
-  if (!titleEl || !subtitleEl || !barEl) return;
-
-  const title = getCurrentTitle();
-  titleEl.textContent = title;
-
-  subtitleEl.textContent =
-    `Travel: ${data.travelMiles.toFixed(1)} / ${data.travelGoalMiles} miles toward Destin, FL`;
-
-  const percent = Math.min((data.travelMiles / data.travelGoalMiles) * 100, 100);
-  barEl.style.width = `${percent}%`;
 }
 
 // DAILY QUESTS
@@ -398,7 +361,6 @@ document.getElementById("saveFitness").addEventListener("click", () => {
     saveData();
     renderFitness();
     renderTravelMap();
-    renderCharacterStrip();
   }
 });
 
@@ -524,7 +486,6 @@ function renderWeight() {
     }
 
     saveData();
-    renderCharacterStrip();
   }
 }
 
@@ -770,7 +731,6 @@ document.getElementById("lowEnergyButton").addEventListener("click", () => {
 // MASTER RENDER
 function render() {
   renderHeader();
-  renderCharacterStrip();
   renderQuests();
   renderJoyChallenge();
   renderFitness();
@@ -794,4 +754,3 @@ render();
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
 }
-```
