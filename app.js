@@ -426,7 +426,7 @@ function renderRoom() {
   container.innerHTML = "";
 
   roomTasks.forEach((task, i) => {
-    const id = `     const id = `room_${i}`;
+    const id = `room_${i}`;
     const done = !!data.roomCompleted[id];
 
     const row = document.createElement("div");
@@ -453,14 +453,24 @@ function renderRoom() {
     `${Object.keys(data.roomCompleted).length} / ${roomTasks.length}`;
 }
 
-// HOUSE TASKS
+// HOUSE TASKS (FULLY FIXED)
 function renderHouse() {
   const container = document.getElementById("houseList");
   container.innerHTML = "";
 
-  const tasks = data.todaysHouseTasks;
+  // If today's tasks are missing or corrupted, regenerate 3 random tasks
+  if (!Array.isArray(data.todaysHouseTasks) || data.todaysHouseTasks.length !== 3) {
+    data.todaysHouseTasks = [];
 
-  tasks.forEach((task) => {
+    for (let i = 0; i < 3; i++) {
+      const randomTask = houseTasks[Math.floor(Math.random() * houseTasks.length)];
+      data.todaysHouseTasks.push(randomTask);
+    }
+
+    saveData();
+  }
+
+  data.todaysHouseTasks.forEach(task => {
     const id = `house_${task}`;
     const done = !!data.houseCompleted[id];
 
@@ -484,11 +494,14 @@ function renderHouse() {
     container.appendChild(row);
   });
 
-  const completedCount = tasks.filter(task => data.houseCompleted[`house_${task}`]).length;
+  const completedCount = data.todaysHouseTasks.filter(
+    task => data.houseCompleted[`house_${task}`]
+  ).length;
 
   document.getElementById("houseProgressText").textContent =
-    `${completedCount} / ${tasks.length} tasks completed today`;
+    `${completedCount} / ${data.todaysHouseTasks.length} tasks completed today`;
 }
+
 
 // WEIGHT LOSS QUEST (30 lbs)
 function renderWeight() {
