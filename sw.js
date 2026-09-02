@@ -1,4 +1,4 @@
-const CACHE_NAME = "life-quest-v1";
+const CACHE_NAME = "life-quest-v2"; // bump version so new files are used
 
 const FILES_TO_CACHE = [
   "./",
