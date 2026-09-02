@@ -33,6 +33,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
 }
 
 .eyebrow {
@@ -42,12 +43,12 @@ body {
   margin-bottom: 4px;
 }
 
-.coin-box {
+.coin-box, .joy-box {
   text-align: center;
   font-size: 18px;
 }
 
-.coin-box span {
+.coin-box span, .joy-box span {
   display: block;
   font-size: 34px;
 }
@@ -77,6 +78,22 @@ body {
   border-bottom: 1px solid #eee;
 }
 
+.quest-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.streak {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px 8px;
+  background: #ffebee;
+  border-radius: 6px;
+  min-width: 40px;
+  text-align: center;
+}
+
 .quest.completed {
   opacity: .55;
 }
@@ -86,11 +103,18 @@ body {
   border-radius: 10px;
   padding: 10px 14px;
   cursor: pointer;
+  font-weight: bold;
 }
 
-.primary-button, #saveFitness, #saveWeight, #addReward {
+.primary-button, #saveFitness, #saveWeight, #addReward, #acceptChallenge {
   background: #6c63ff;
   color: white;
+}
+
+.primary-button:hover, #saveFitness:hover, #saveWeight:hover, #addReward:hover, #acceptChallenge:hover {
+  background: #5a52d5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
 }
 
 .secondary-button {
@@ -109,6 +133,13 @@ input {
   padding: 11px;
   border: 1px solid #ddd;
   border-radius: 10px;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.1);
 }
 
 .next-quest {
@@ -116,6 +147,83 @@ input {
   padding: 16px;
   background: #f8f8ff;
   border-radius: 12px;
+}
+
+/* JOY CHALLENGE STYLES */
+#joyChallenge {
+  background: linear-gradient(135deg, #fff5f7 0%, #f8f8ff 100%);
+  border: 2px solid #ffb3d9;
+}
+
+#joyChallenge h3 {
+  margin-top: 0;
+  color: #d81b60;
+}
+
+#joyChallenge p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 12px 0;
+}
+
+#joyChallenge > div {
+  font-weight: bold;
+  color: #6c63ff;
+  margin: 10px 0;
+}
+
+#challengeStatus {
+  text-align: center;
+  font-weight: bold;
+  color: #4caf50;
+  margin-top: 12px;
+}
+
+/* LIFE STATS STYLES */
+#lifeStats h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #6c63ff;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.stat-row span:first-child {
+  font-weight: bold;
+  min-width: 120px;
+}
+
+.stat-row span:last-child {
+  font-family: monospace;
+  font-size: 14px;
+  text-align: right;
+  flex: 1;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title h2 {
+  margin: 0;
+}
+
+.section-title span {
+  font-size: 14px;
+  background: #f0f0f0;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 .hidden {
@@ -130,7 +238,16 @@ footer {
 
 @media (max-width: 600px) {
   .hero, .top-bar {
+    flex-direction: column;
     align-items: flex-start;
+  }
+
+  .hero {
+    gap: 12px;
+  }
+
+  .coin-box, .joy-box {
+    width: 100%;
   }
 
   .number-row {
@@ -139,5 +256,19 @@ footer {
 
   .number-row input {
     min-width: 120px;
+  }
+
+  .quest, .room-task, .reward {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .quest-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .quest-right button {
+    width: 100%;
   }
 }
