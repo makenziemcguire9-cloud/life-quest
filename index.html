@@ -4,14 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Life Quest</title>
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
 </head>
-
 <body>
   <header class="top-bar">
     <div>
@@ -22,7 +17,6 @@
   </header>
 
   <main>
-
     <!-- HERO -->
     <section class="hero card">
       <div>
@@ -117,9 +111,18 @@
       </div>
     </section>
 
+    <!-- TRAVEL MAP -->
+    <section class="card">
+      <h2>🗺️ Journey to Destin</h2>
+      <p id="travelText">0 / 750 miles</p>
+      <div class="progress-bar">
+        <div id="travelBar" class="progress-fill"></div>
+      </div>
+    </section>
+
     <!-- WEIGHT -->
     <section class="card">
-      <h2>🎯 The 15 LB Quest</h2>
+      <h2>🎯 The 30 LB Quest</h2>
       <div class="number-row">
         <input id="startingWeight" type="number" placeholder="Starting weight">
         <input id="currentWeight" type="number" placeholder="Current weight">
@@ -168,14 +171,12 @@
       <button id="spinButton" class="primary-button">🎰 BONUS SPIN</button>
       <p id="spinResult"></p>
     </section>
-
   </main>
 
   <footer>
     <p>Progress, not perfection. Every quest counts. ❤️</p>
   </footer>
 
-  <!-- JS -->
   <script src="app.js"></script>
 </body>
 </html>
