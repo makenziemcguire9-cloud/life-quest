@@ -1,3 +1,10 @@
+[START OF FILE]
+
+//
+// LIFE QUEST - APP LOGIC (v8)
+// Clean full rewrite with expanded house tasks
+//
+
 // Weekend helper 
 const isWeekend = () => {
   const day = new Date().getDay();
@@ -102,7 +109,7 @@ const roomTasks = [
   "Vacuum one section"
 ];
 
-// HOUSE TASKS — NOW 60+ ITEMS
+// HOUSE TASKS — 60+ ITEMS
 const houseTasks = [
   "Load the dishwasher",
   "Unload the dishwasher",
@@ -400,6 +407,7 @@ document.getElementById("saveFitness").addEventListener("click", () => {
     renderTravelMap();
   }
 });
+
 // TRAVEL MAP
 function renderTravelMap() {
   const goal = data.travelGoalMiles || 750;
@@ -418,7 +426,7 @@ function renderRoom() {
   container.innerHTML = "";
 
   roomTasks.forEach((task, i) => {
-    const id = `room_${i}`;
+    const id = `     const id = `room_${i}`;
     const done = !!data.roomCompleted[id];
 
     const row = document.createElement("div");
@@ -445,14 +453,14 @@ function renderRoom() {
     `${Object.keys(data.roomCompleted).length} / ${roomTasks.length}`;
 }
 
-// HOUSE TASKS (FIXED + EXPANDED)
+// HOUSE TASKS
 function renderHouse() {
   const container = document.getElementById("houseList");
   container.innerHTML = "";
 
   const tasks = data.todaysHouseTasks;
 
-  tasks.forEach((task, idx) => {
+  tasks.forEach((task) => {
     const id = `house_${task}`;
     const done = !!data.houseCompleted[id];
 
@@ -702,7 +710,7 @@ function renderPerfectDay() {
   document.getElementById("perfectDayCard").classList.toggle("hidden", !allDone);
 }
 
-// BONUS SPIN (once per day)
+// BONUS SPIN
 const spinPrizes = [
   { text: "🪙 +25 coins!", coins: 25 },
   { text: "🪙 +50 coins!", coins: 50 },
