@@ -210,7 +210,6 @@ let data = loadData();
 function saveData() {
   localStorage.setItem("lifeQuestData", JSON.stringify(data));
 }
-
 // DAILY RESET
 function checkNewDay() {
   const today = new Date().toDateString();
@@ -417,7 +416,6 @@ function renderTravelMap() {
 
   document.getElementById("travelBar").style.width = `${percent}%`;
 }
-
 // ROOM RESET
 function renderRoom() {
   const container = document.getElementById("roomList");
@@ -433,7 +431,9 @@ function renderRoom() {
     row.innerHTML = `
       <span>${done ? "✅" : "⬜"} ${task}</span>
       <button>${done ? "Done" : "+10 XP"}</button>
-    `;    row.querySelector("button").addEventListener("click", () => {
+    `;
+
+    row.querySelector("button").addEventListener("click", () => {
       if (!done) {
         data.roomCompleted[id] = true;
         earn(10, 2, 1);
@@ -501,7 +501,6 @@ function renderHouse() {
   document.getElementById("houseProgressText").textContent =
     `${completedCount} / ${data.todaysHouseTasks.length} tasks completed today`;
 }
-
 // WEIGHT LOSS QUEST (30 lbs)
 function renderWeight() {
   const start = data.startingWeight;
@@ -707,7 +706,6 @@ document.getElementById("addWeeklyQuest").addEventListener("click", () => {
     renderWeeklyQuests();
   }
 });
-
 // NEXT QUEST
 function renderNextQuest() {
   const next = quests.find(q => !data.completed[q.id]);
@@ -807,5 +805,3 @@ render();
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
 }
-
-
