@@ -268,6 +268,42 @@ function renderHeader() {
   document.getElementById("joy").textContent = data.joy;
 }
 
+// TITLE LOGIC FOR CHARACTER STRIP
+function getCurrentTitle() {
+  const lost =
+    data.startingWeight !== null && data.currentWeight !== null
+      ? Math.max(data.startingWeight - data.currentWeight, 0)
+      : 0;
+
+  if (lost >= 30) return "Twilight Dragon Slayer";
+  if (lost >= 20) return "Beach Kraken Conqueror";
+  if (lost >= 10) return "Highland Wolf Warrior";
+  if (lost >= 5) return "Fog Wraith Challenger";
+
+  if (data.travelMiles >= data.travelGoalMiles) return "Destin Voyager";
+  if (data.travelMiles >= 250) return "Beach Wanderer";
+  if (data.travelMiles >= 100) return "Road Trip Adventurer";
+
+  return "Butterfly Guardian";
+}
+
+function renderCharacterStrip() {
+  const titleEl = document.getElementById("currentTitle");
+  const subtitleEl = document.getElementById("characterSubtitle");
+  const barEl = document.getElementById("characterTravelBar");
+
+  if (!titleEl || !subtitleEl || !barEl) return;
+
+  const title = getCurrentTitle();
+  titleEl.textContent = title;
+
+  subtitleEl.textContent =
+    `Travel: ${data.travelMiles.toFixed(1)} / ${data.travelGoalMiles} miles toward Destin, FL`;
+
+  const percent = Math.min((data.travelMiles / data.travelGoalMiles) * 100, 100);
+  barEl.style.width = `${percent}%`;
+}
+
 // DAILY QUESTS
 function renderQuests() {
   const container = document.getElementById("questList");
@@ -357,6 +393,7 @@ document.getElementById("saveFitness").addEventListener("click", () => {
     saveData();
     renderFitness();
     renderTravelMap();
+    renderCharacterStrip();
   }
 });
 
@@ -482,6 +519,7 @@ function renderWeight() {
     }
 
     saveData();
+    renderCharacterStrip();
   }
 }
 
@@ -727,6 +765,7 @@ document.getElementById("lowEnergyButton").addEventListener("click", () => {
 // MASTER RENDER
 function render() {
   renderHeader();
+  renderCharacterStrip();
   renderQuests();
   renderJoyChallenge();
   renderFitness();
