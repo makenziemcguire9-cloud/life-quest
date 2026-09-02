@@ -1,5 +1,3 @@
-[START OF FILE]
-
 //
 // LIFE QUEST - APP LOGIC (v8)
 // Clean full rewrite with expanded house tasks
@@ -435,9 +433,7 @@ function renderRoom() {
     row.innerHTML = `
       <span>${done ? "✅" : "⬜"} ${task}</span>
       <button>${done ? "Done" : "+10 XP"}</button>
-    `;
-
-    row.querySelector("button").addEventListener("click", () => {
+    `;    row.querySelector("button").addEventListener("click", () => {
       if (!done) {
         data.roomCompleted[id] = true;
         earn(10, 2, 1);
@@ -453,13 +449,17 @@ function renderRoom() {
     `${Object.keys(data.roomCompleted).length} / ${roomTasks.length}`;
 }
 
-// HOUSE TASKS (FULLY FIXED)
+// HOUSE TASKS (FULLY FIXED & SELF-HEALING)
 function renderHouse() {
   const container = document.getElementById("houseList");
   container.innerHTML = "";
 
-  // If today's tasks are missing or corrupted, regenerate 3 random tasks
-  if (!Array.isArray(data.todaysHouseTasks) || data.todaysHouseTasks.length !== 3) {
+  // If today's tasks are missing, empty, corrupted, or wrong length → regenerate
+  if (
+    !Array.isArray(data.todaysHouseTasks) ||
+    data.todaysHouseTasks.length !== 3 ||
+    data.todaysHouseTasks.some(t => typeof t !== "string")
+  ) {
     data.todaysHouseTasks = [];
 
     for (let i = 0; i < 3; i++) {
@@ -501,7 +501,6 @@ function renderHouse() {
   document.getElementById("houseProgressText").textContent =
     `${completedCount} / ${data.todaysHouseTasks.length} tasks completed today`;
 }
-
 
 // WEIGHT LOSS QUEST (30 lbs)
 function renderWeight() {
@@ -808,3 +807,5 @@ render();
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
 }
+
+
