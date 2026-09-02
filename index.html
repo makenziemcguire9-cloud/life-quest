@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Life Quest</title>
 
   <!-- Connects our CSS design file -->
@@ -12,22 +11,18 @@
   <!-- Helps the site behave like an installable app -->
   <link rel="manifest" href="manifest.json">
 </head>
-
 <body>
-
   <header class="top-bar">
     <div>
       <p class="eyebrow">YOUR ADVENTURE</p>
       <h1>🏆 Life Quest</h1>
     </div>
-
     <button id="lowEnergyButton" class="secondary-button">
       🌧️ Low Energy
     </button>
   </header>
 
   <main>
-
     <section class="hero card">
       <div>
         <p class="eyebrow">CURRENT LEVEL</p>
@@ -70,19 +65,45 @@
       <div id="questList"></div>
     </section>
 
-    <section class="card" id="lifeStats">
-      <!-- Dynamically populated with character stats -->
+    <!-- Custom Daily Quests -->
+    <section class="card">
+      <div class="section-title">
+        <h2>🗓️ Custom Daily Quests</h2>
+        <span id="dailyCustomProgressText">0 / 0</span>
+      </div>
+      <div id="dailyCustomList"></div>
+      <h3>Add a daily quest</h3>
+      <div class="number-row">
+        <input id="dailyQuestName" type="text" placeholder="Example: Stretch for 5 minutes">
+        <input id="dailyQuestXP" type="number" min="1" placeholder="XP">
+        <input id="dailyQuestCoins" type="number" min="0" placeholder="Coins">
+        <button id="addDailyQuest">Add</button>
+      </div>
+    </section>
+
+    <!-- Weekly Quests -->
+    <section class="card">
+      <div class="section-title">
+        <h2>📅 Weekly Quests</h2>
+        <span id="weeklyProgressText">0 / 0</span>
+      </div>
+      <div id="weeklyList"></div>
+      <h3>Add a weekly quest</h3>
+      <div class="number-row">
+        <input id="weeklyQuestName" type="text" placeholder="Example: Clean car">
+        <input id="weeklyQuestXP" type="number" min="1" placeholder="XP">
+        <input id="weeklyQuestCoins" type="number" min="0" placeholder="Coins">
+        <button id="addWeeklyQuest">Add</button>
+      </div>
     </section>
 
     <section class="card">
       <h2>🚴 Fitness Progress</h2>
-
       <label id="fitnessLabel">Miles today</label>
       <div class="number-row">
         <input id="fitnessInput" type="number" min="0" step="0.1" placeholder="0">
         <button id="saveFitness">Save</button>
       </div>
-
       <p id="fitnessText">0 / 50</p>
       <div class="progress-bar">
         <div id="fitnessBar" class="progress-fill"></div>
@@ -91,13 +112,11 @@
 
     <section class="card">
       <h2>🎯 The 15 LB Quest</h2>
-
       <div class="number-row">
         <input id="startingWeight" type="number" placeholder="Starting weight">
         <input id="currentWeight" type="number" placeholder="Current weight">
         <button id="saveWeight">Update</button>
       </div>
-
       <p id="weightText">Enter your starting and current weight.</p>
       <div class="progress-bar">
         <div id="weightBar" class="progress-fill"></div>
@@ -110,11 +129,16 @@
       <div id="roomList"></div>
     </section>
 
+    <!-- Helping Out Around the House -->
+    <section class="card">
+      <h2>🏠 Helping Out Around the House</h2>
+      <p id="houseProgressText">0 / 0 tasks completed today</p>
+      <div id="houseList"></div>
+    </section>
+
     <section class="card">
       <h2>🎁 Reward Shop</h2>
-
       <div id="rewardList"></div>
-
       <h3>Add a reward</h3>
       <div class="number-row">
         <input id="rewardName" type="text" placeholder="Example: New book">
@@ -123,13 +147,17 @@
       </div>
     </section>
 
+    <!-- Life stats moved toward the bottom -->
+    <section class="card" id="lifeStats">
+      <!-- Dynamically populated with character stats -->
+    </section>
+
     <section id="perfectDayCard" class="card hidden">
       <h2>⭐ PERFECT DAY! ⭐</h2>
       <p>You completed all of today's core quests.</p>
       <button id="spinButton" class="primary-button">🎰 BONUS SPIN</button>
       <p id="spinResult"></p>
     </section>
-
   </main>
 
   <footer>
@@ -138,6 +166,5 @@
 
   <!-- Loads the JavaScript brain after the page exists -->
   <script src="app.js"></script>
-
 </body>
 </html>
