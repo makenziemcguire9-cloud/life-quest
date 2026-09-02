@@ -1,5 +1,5 @@
 // ==============================
-// LIFE QUEST - APP BRAIN
+// LIFE QUEST - APP BRAIN (v2)
 // ==============================
 
 // A helper that tells us if today is Saturday or Sunday.
@@ -8,21 +8,91 @@ const isWeekend = () => {
   return day === 0 || day === 6;
 };
 
-// This is the master list of daily quests.
-// You can add, remove or change quests here.
+// EXPANDED DAILY QUESTS
 const quests = [
-  { id: "weights", icon: "🏋️", name: "Complete today's weight workout", xp: 50, coins: 10, core: true },
-  { id: "protein1", icon: "🥛", name: "Protein item #1", xp: 20, coins: 5, core: true },
-  { id: "protein2", icon: "🥛", name: "Protein item #2", xp: 20, coins: 5, core: true },
-  { id: "dog1", icon: "🐶", name: "Dog favorite thing #1", xp: 25, coins: 5, core: true },
-  { id: "dog2", icon: "🐶", name: "Dog favorite thing #2", xp: 25, coins: 5, core: true },
-  { id: "mirror", icon: "🪞", name: "Look at your face for 10 seconds", xp: 30, coins: 5, core: true },
-  { id: "medicine", icon: "💊", name: "Take medicine", xp: 30, coins: 5, core: true },
-  { id: "face", icon: "🧴", name: "Complete face routine", xp: 30, coins: 5, core: true }
+  // Core Fitness
+  { id: "fitness", icon: isWeekend() ? "🚶" : "🚴", name: isWeekend() ? "Weekend steps" : "Weekday bike", xp: 100, coins: 20, joy: 0, core: true },
+  { id: "weights", icon: "🏋️", name: "Weights", xp: 50, coins: 10, joy: 0, core: true },
+  
+  // Nutrition
+  { id: "protein1", icon: "🥛", name: "Protein #1", xp: 20, coins: 5, joy: 0, core: true },
+  { id: "protein2", icon: "🥛", name: "Protein #2", xp: 20, coins: 5, joy: 0, core: true },
+  
+  // Health
+  { id: "medicine", icon: "💊", name: "Take medicine", xp: 30, coins: 5, joy: 0, core: true },
+  { id: "morningFace", icon: "☀️", name: "Morning face routine", xp: 25, coins: 5, joy: 2, core: true },
+  { id: "nightFace", icon: "🌙", name: "Night face routine", xp: 25, coins: 5, joy: 2, core: true },
+  { id: "mirror", icon: "🪞", name: "Look at your face", xp: 30, coins: 5, joy: 3, core: true },
+  
+  // Mental & Wellness
+  { id: "reading", icon: "📖", name: "Read 1 chapter", xp: 30, coins: 5, joy: 3, core: true },
+  { id: "bedtime", icon: "🌙", name: "In bed before midnight", xp: 30, coins: 5, joy: 0, core: true },
+  { id: "screenTime", icon: "📱", name: "Under 3 hours screen time", xp: 40, coins: 10, joy: 2, core: true },
+  
+  // Dogs
+  { id: "dog1", icon: "🐶", name: "Dog favorite thing #1", xp: 25, coins: 5, joy: 4, core: true },
+  { id: "dog2", icon: "🐶", name: "Dog favorite thing #2", xp: 25, coins: 5, joy: 4, core: true },
 ];
 
-// Microtasks for your room.
-// Add as many as you want.
+// JOY CHALLENGE CATEGORIES
+const joyChallenges = {
+  nature: [
+    { text: "Find the most interesting leaf. Take a picture. 🍂", xp: 50, joy: 5 },
+    { text: "Find a pretty flower and learn what species it is. 🌱", xp: 50, joy: 5 },
+    { text: "Go outside and find something you've never noticed before. 🔍", xp: 50, joy: 5 },
+    { text: "Photograph something beautiful. 📸", xp: 50, joy: 5 }
+  ],
+  dogs: [
+    { text: "Take your dogs somewhere you've never taken them before. 🐶", xp: 75, joy: 5 },
+    { text: "Teach your dog a new trick. 🎓", xp: 50, joy: 4 }
+  ],
+  creativity: [
+    { text: "Draw, paint, or doodle something. 🎨", xp: 50, joy: 5 },
+    { text: "Write something for fun. ✍️", xp: 50, joy: 5 }
+  ],
+  food: [
+    { text: "Eat something delicious. That's the quest. 🍰", xp: 50, joy: 5 },
+    { text: "Buy or make a snack you've never tried before. 🍪", xp: 50, joy: 5 },
+    { text: "Cook something new. 👨‍🍳", xp: 75, joy: 5 }
+  ],
+  music: [
+    { text: "Put on a song you loved when you were younger and listen all the way through. 🎵", xp: 50, joy: 5 },
+    { text: "Make a new playlist. 🎶", xp: 50, joy: 4 }
+  ],
+  curiosity: [
+    { text: "Learn something new about a topic you care about. 📚", xp: 50, joy: 4 },
+    { text: "Watch a TED talk or documentary. 🎬", xp: 50, joy: 4 }
+  ],
+  adventure: [
+    { text: "Take a walk somewhere you've never walked. 🚶", xp: 50, joy: 5 },
+    { text: "Explore a new place. 🗺️", xp: 75, joy: 5 },
+    { text: "Go hiking. ⛰️", xp: 75, joy: 5 }
+  ],
+  connection: [
+    { text: "Text or call someone you care about. 💬", xp: 50, joy: 4 },
+    { text: "Do something nice for someone. 💕", xp: 50, joy: 5 }
+  ],
+  selfCare: [
+    { text: "Take a bath or long shower. 🛁", xp: 50, joy: 5 },
+    { text: "Get a good night's sleep. 😴", xp: 50, joy: 4 }
+  ],
+  silly: [
+    { text: "Do something completely harmless and ridiculous that makes you laugh. 😂", xp: 100, joy: 5 }
+  ],
+  nostalgia: [
+    { text: "Look at old photos. 📷", xp: 50, joy: 5 },
+    { text: "Re-watch your favorite show or movie. 🎭", xp: 50, joy: 5 }
+  ]
+};
+
+// Default rewards
+const defaultRewards = [
+  { name: "Favorite coffee", cost: 500 },
+  { name: "$10 treat", cost: 1000 },
+  { name: "New book", cost: 2000 }
+];
+
+// Room tasks
 const roomTasks = [
   "Pick up 5 things",
   "Put 5 more things away",
@@ -45,26 +115,24 @@ const roomTasks = [
   "Vacuum one section"
 ];
 
-// Default rewards.
-// You can change these or create your own inside the app.
-const defaultRewards = [
-  { name: "Favorite coffee", cost: 500 },
-  { name: "$10 treat", cost: 1000 },
-  { name: "New book", cost: 2000 }
-];
-
 // Get saved data, or create new data the first time.
 function loadData() {
   return JSON.parse(localStorage.getItem("lifeQuestData")) || {
     xp: 0,
     coins: 0,
+    joy: 0,
+    joyThisMonth: 0,
     completed: {},
     roomCompleted: {},
+    streaks: {},
+    currentBook: { title: "", currentChapter: 0, totalChapters: 0 },
     fitness: 0,
     startingWeight: null,
     currentWeight: null,
     rewards: defaultRewards,
-    lastDate: new Date().toDateString()
+    lastDate: new Date().toDateString(),
+    todaysChallengeData: null,
+    booksCompleted: 0
   };
 }
 
@@ -82,26 +150,86 @@ function checkNewDay() {
   if (data.lastDate !== today) {
     data.completed = {};
     data.fitness = 0;
+    data.roomCompleted = {};
     data.lastDate = today;
+    
+    // Generate today's joy challenge
+    const allChallenges = Object.values(joyChallenges).flat();
+    data.todaysChallengeData = allChallenges[Math.floor(Math.random() * allChallenges.length)];
+    
     saveData();
   }
 }
 
-// Give the player XP and coins.
-function earn(xp, coins) {
+// Give the player XP, coins, and joy.
+function earn(xp, coins, joy = 0) {
   data.xp += xp;
   data.coins += coins;
+  data.joy += joy;
+  data.joyThisMonth += joy;
   saveData();
 }
 
 // Calculate the player's level.
-// Every 500 XP = one level in Version 1.
 function getLevel() {
   return Math.floor(data.xp / 500) + 1;
 }
 
 function getXPIntoLevel() {
   return data.xp % 500;
+}
+
+// LIFE STATS - calculated from quest completion
+function getLifeStats() {
+  const questCompletionRate = (count, total) => (count / total) * 100;
+  
+  return {
+    fitness: Math.min(questCompletionRate(
+      (data.completed.fitness ? 1 : 0) + (data.completed.weights ? 1 : 0),
+      2
+    ), 100),
+    discipline: Math.min(questCompletionRate(
+      (data.completed.medicine ? 1 : 0) + (data.completed.bedtime ? 1 : 0) + (data.completed.screenTime ? 1 : 0),
+      3
+    ), 100),
+    adventure: Math.min((Object.keys(data.completed).filter(k => k.includes("outside") || k.includes("hiking")).length / 5) * 100, 100),
+    selfCare: Math.min(questCompletionRate(
+      (data.completed.morningFace ? 1 : 0) + (data.completed.nightFace ? 1 : 0) + (data.completed.mirror ? 1 : 0),
+      3
+    ), 100),
+    home: Math.min((Object.keys(data.roomCompleted).filter(k => data.roomCompleted[k]).length / 19) * 100, 100),
+    connection: Math.min(questCompletionRate(
+      (data.completed.dog1 ? 1 : 0) + (data.completed.dog2 ? 1 : 0),
+      2
+    ), 100),
+    joy: Math.min((data.joy / 100) * 100, 100)
+  };
+}
+
+// STREAK TRACKING
+function updateStreak(questId) {
+  const today = new Date().toDateString();
+  const streakKey = `${questId}_streak`;
+  const lastStreakDateKey = `${questId}_streakDate`;
+  
+  const lastDate = localStorage.getItem(lastStreakDateKey);
+  const currentStreak = parseInt(localStorage.getItem(streakKey)) || 0;
+  
+  if (lastDate !== today) {
+    const lastDateObj = new Date(lastDate || today);
+    const todayObj = new Date(today);
+    const daysDiff = Math.floor((todayObj - lastDateObj) / (1000 * 60 * 60 * 24));
+    
+    if (daysDiff === 1) {
+      localStorage.setItem(streakKey, currentStreak + 1);
+    } else if (daysDiff > 1) {
+      localStorage.setItem(streakKey, 1);
+    }
+    
+    localStorage.setItem(lastStreakDateKey, today);
+  }
+  
+  return parseInt(localStorage.getItem(streakKey)) || 0;
 }
 
 // Draw the level, XP and coins.
@@ -113,6 +241,8 @@ function renderHeader() {
   document.getElementById("xpText").textContent = `${xpIntoLevel} / 500 XP`;
   document.getElementById("xpBar").style.width = `${(xpIntoLevel / 500) * 100}%`;
   document.getElementById("coins").textContent = data.coins;
+  const joyElement = document.getElementById("joy");
+  if (joyElement) joyElement.textContent = data.joy;
 }
 
 // Draw every daily quest.
@@ -122,22 +252,29 @@ function renderQuests() {
 
   quests.forEach(quest => {
     const completed = !!data.completed[quest.id];
+    const streak = parseInt(localStorage.getItem(`${quest.id}_streak`)) || 0;
 
     const row = document.createElement("div");
     row.className = `quest ${completed ? "completed" : ""}`;
 
+    const streakDisplay = streak > 0 ? `<span class="streak">🔥 ${streak}</span>` : "";
+    
     row.innerHTML = `
       <div>
         <strong>${quest.icon} ${quest.name}</strong>
-        <div>+${quest.xp} XP • +${quest.coins} coins</div>
+        <div>+${quest.xp} XP • +${quest.coins} coins ${quest.joy > 0 ? `• +${quest.joy} joy` : ""}</div>
       </div>
-      <button>${completed ? "✓ Done" : "Complete"}</button>
+      <div class="quest-right">
+        ${streakDisplay}
+        <button>${completed ? "✓ Done" : "Complete"}</button>
+      </div>
     `;
 
     row.querySelector("button").addEventListener("click", () => {
       if (!data.completed[quest.id]) {
         data.completed[quest.id] = true;
-        earn(quest.xp, quest.coins);
+        updateStreak(quest.id);
+        earn(quest.xp, quest.coins, quest.joy);
         saveData();
         render();
       }
@@ -146,9 +283,37 @@ function renderQuests() {
     container.appendChild(row);
   });
 
-  const completedCount = Object.keys(data.completed).length;
-  document.getElementById("dailyProgressText").textContent =
-    `${completedCount} / ${quests.length}`;
+  const coreQuests = quests.filter(q => q.core);
+  const coreDone = coreQuests.filter(q => data.completed[q.id]).length;
+  
+  document.getElementById("dailyProgressText").textContent = `${coreDone} / ${coreQuests.length} core quests`;
+}
+
+// RANDOM JOY CHALLENGE
+function renderJoyChallenge() {
+  const container = document.getElementById("joyChallenge");
+  if (!container) return;
+  
+  if (!data.todaysChallengeData) {
+    checkNewDay();
+  }
+  
+  const challenge = data.todaysChallengeData;
+  
+  container.innerHTML = `
+    <h3>🎲 TODAY'S JOY CHALLENGE</h3>
+    <p>${challenge.text}</p>
+    <div>+${challenge.xp} XP • 💖 +${challenge.joy} joy</div>
+    <button id="acceptChallenge" class="primary-button">Accept Challenge</button>
+    <p id="challengeStatus"></p>
+  `;
+  
+  document.getElementById("acceptChallenge").addEventListener("click", () => {
+    earn(challenge.xp, 0, challenge.joy);
+    document.getElementById("acceptChallenge").style.display = "none";
+    document.getElementById("challengeStatus").textContent = "✨ Challenge complete! Great job! ✨";
+    render();
+  });
 }
 
 // Fitness goal changes automatically on weekends.
@@ -175,15 +340,8 @@ document.getElementById("saveFitness").addEventListener("click", () => {
 
   if (value >= 0) {
     data.fitness = value;
-
-    // Award the fitness reward once when the goal is reached.
-    if (value >= getFitnessGoal() && !data.completed.fitness) {
-      data.completed.fitness = true;
-      earn(100, 20);
-    }
-
     saveData();
-    render();
+    renderFitness();
   }
 });
 
@@ -207,7 +365,7 @@ function renderRoom() {
     row.querySelector("button").addEventListener("click", () => {
       if (!data.roomCompleted[id]) {
         data.roomCompleted[id] = true;
-        earn(10, 2);
+        earn(10, 2, 1);
         saveData();
         render();
       }
@@ -217,8 +375,7 @@ function renderRoom() {
   });
 
   const count = Object.keys(data.roomCompleted).filter(key => data.roomCompleted[key]).length;
-  document.getElementById("roomProgressText").textContent =
-    `${count} / ${roomTasks.length} microtasks completed`;
+  document.getElementById("roomProgressText").textContent = `${count} / ${roomTasks.length} microtasks completed`;
 }
 
 // Weight goal is always 15 pounds.
@@ -303,13 +460,12 @@ function renderNextQuest() {
     : "🎉 Your core quests are complete!";
 }
 
-// Check for a perfect day.
+// Check for a perfect day (all core quests).
 function renderPerfectDay() {
-  const allComplete = quests.every(quest => data.completed[quest.id]) &&
-    data.completed.fitness;
+  const coreQuests = quests.filter(q => q.core);
+  const allCoreComplete = coreQuests.every(quest => data.completed[quest.id]);
 
-  document.getElementById("perfectDayCard")
-    .classList.toggle("hidden", !allComplete);
+  document.getElementById("perfectDayCard").classList.toggle("hidden", !allCoreComplete);
 }
 
 // Bonus spin prizes.
@@ -328,14 +484,40 @@ document.getElementById("spinButton").addEventListener("click", () => {
   renderHeader();
 });
 
+// Render Life Stats
+function renderLifeStats() {
+  const container = document.getElementById("lifeStats");
+  if (!container) return;
+  
+  const stats = getLifeStats();
+  
+  const statBar = (name, value) => {
+    const filled = Math.round((value / 100) * 10);
+    const empty = 10 - filled;
+    const bar = "█".repeat(filled) + "░".repeat(empty);
+    return `<div class="stat-row"><span>${name}</span><span>${bar} ${Math.round(value)}</span></div>`;
+  };
+  
+  container.innerHTML = `
+    <h3>🌟 YOUR CHARACTER</h3>
+    ${statBar("Fitness", stats.fitness)}
+    ${statBar("Discipline", stats.discipline)}
+    ${statBar("Adventure", stats.adventure)}
+    ${statBar("Self-Care", stats.selfCare)}
+    ${statBar("Home", stats.home)}
+    ${statBar("Connection", stats.connection)}
+    ${statBar("Joy", stats.joy)}
+  `;
+}
+
 // Low-energy mode gives you a tiny suggested mission.
 document.getElementById("lowEnergyButton").addEventListener("click", () => {
   const options = [
     "💊 Take your medicine.",
     "🥛 Have one protein item.",
-    "🧴 Do your face routine.",
+    "☀️ Do your morning face routine.",
     "🐶 Do one favorite thing with a dog.",
-    "🧹 Put away 3 things."
+    "🧹 Pick up 5 things."
   ];
 
   const mission = options[Math.floor(Math.random() * options.length)];
@@ -346,12 +528,14 @@ document.getElementById("lowEnergyButton").addEventListener("click", () => {
 function render() {
   renderHeader();
   renderQuests();
+  renderJoyChallenge();
   renderFitness();
   renderRoom();
   renderWeight();
   renderRewards();
   renderNextQuest();
   renderPerfectDay();
+  renderLifeStats();
 }
 
 // Start the app.
