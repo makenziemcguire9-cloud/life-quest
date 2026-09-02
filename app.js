@@ -1,7 +1,3 @@
-// ==============================
-// LIFE QUEST - APP LOGIC (v7)
-// ==============================
-
 // Weekend helper 
 const isWeekend = () => {
   const day = new Date().getDay();
