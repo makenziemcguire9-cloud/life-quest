@@ -2,7 +2,7 @@
 // LIFE QUEST - FULL APP BRAIN (v4)
 // ==============================
 
-// Weekend helper
+// Weekend helper 
 const isWeekend = () => {
   const day = new Date().getDay();
   return day === 0 || day === 6;
